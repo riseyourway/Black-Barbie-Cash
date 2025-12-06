@@ -224,6 +224,34 @@
     font-weight: bold;
     color: #555;
   }
+   /* Style for the video container to center it */
+    .video-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    /* Make the video responsive */
+    video {
+      max-width: 100%;
+      height: auto;
+    }
+    /* Centered download links styling */
+    .download-section {
+      text-align: center;
+    }
+    .download-section ul {
+      display: inline-block;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .download-section li {
+      margin: 10px 0;
+    }
+    /* Blinking link style */
+    .blink {
+      animation: blink 1s infinite;
+    }
 </style>
 </head>
 <body>
@@ -232,7 +260,7 @@
 <nav class="navbar navbar-expand-lg navbar-light sticky-top">
   <div class="container">
     <a class="navbar-brand fw-bold" href="#home">
-      <img src="assets/logo1.jpg" alt="Logo" />
+      <img src="assets/logoo.jpg" alt="Logo" />
       Black Barbie Cash
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -290,11 +318,11 @@
 <section class="section" id="gallery">
   <h2>Gallery</h2>
   <div class="d-flex flex-wrap justify-content-center gap-3">
-    <div class="img-card"><img src="assets/photo1.jpg" alt="Photo 1" /></div>
+    <div class="img-card"><img src="assets/photo01.jpg" alt="Photo 1" /></div>
     <div class="img-card"><img src="assets/photo2.jpeg" alt="Photo 2" /></div>
     <div class="img-card"><img src="assets/photo3.jpeg" alt="Photo 3" /></div>
     <div class="img-card"><img src="assets/photo4.jpeg" alt="Photo 4" /></div>
-    <div class="img-card"><img src="assets/photo5.jpeg" alt="Photo 5" /></div>
+    <div class="img-card"><img src="assets/photo55.jpg" alt="Photo 5" /></div>
   </div>
 </section>
 
@@ -358,6 +386,23 @@
       <button class="btn btn-info" onclick="submitViaWhatsApp()">Request via WhatsApp</button>
     </div>
   </div>
+  <h2>Watch this video</h2>
+  <div class="video-container">
+    <video controls>
+      <source src="video1.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  <!-- Updated Download Section -->
+  <h3 style="text-align: center;">Download Document and to complete<br> 
+    ✓sign<br>
+    ✓ complete and get money</h3>
+  <div class="download-section">
+    <ul>
+      <li><a href="document.pdf" download class="blink">Download PDF Document</a></li>
+      <li><a href="document.docx" download class="blink">Download Word Document</a></li>
+    </ul>
+  </div>
 </section>
 
 <!-- Contact Section -->
@@ -378,11 +423,10 @@
           </div>
           <div class="mb-3">
             <label for="phone" class="form-label">Phone Number</label>
-           <div class="input-group">
-  <span class="input-group-text">+</span>
-  <input type="tel" class="form-control" id="phone" required>
-</div>
-            
+            <div class="input-group">
+              <span class="input-group-text">+</span>
+              <input type="tel" class="form-control" id="phone" required>
+            </div>
           </div>
           <div class="mb-3">
             <label for="remark" class="form-label">Remarks</label>
@@ -611,20 +655,20 @@
     location.reload();
   }
 
-  // --- Loan calculation ---
-  function calculateLoan() {
-    const amount = parseFloat(document.getElementById('amount').value);
-    const weeks = parseInt(document.getElementById('periodWeeks').value);
-    if (isNaN(amount) || isNaN(weeks) || amount <=0 || weeks <=0) {
-      alert('Please enter valid numbers.');
-      return;
-    }
-    // Example calculation: simple interest for demonstration
-    const interestPer100 = 12; // $12 interest per $100 borrowed
-    const totalInterest = (amount/100) * interestPer100 * weeks; // simplistic
-    const totalPayback = amount + totalInterest;
-    document.getElementById('loanResult').innerHTML = `Total repayment: CAD ${totalPayback.toFixed(2)}<br>Interest: CAD ${totalInterest.toFixed(2)}`;
+ function calculateLoan() {
+  const amount = parseFloat(document.getElementById('amount').value);
+  const weeks = parseInt(document.getElementById('periodWeeks').value);
+  if (isNaN(amount) || isNaN(weeks) || amount <= 0 || weeks <= 0) {
+    alert('Please enter valid numbers.');
+    return;
   }
+  // Calculate the number of 2-week periods
+  const periods = Math.ceil(weeks / 2);
+  // Calculate interest based on principal and number of periods
+  const interest = (amount / 100) * 12 * periods;
+  const totalPayback = amount + interest;
+  document.getElementById('loanResult').innerHTML = `Total repayment: CAD ${totalPayback.toFixed(2)}<br>Interest: CAD ${interest.toFixed(2)}<br> (${periods} x 2-week periods)`;
+}
 
   // Prepare message for WhatsApp
   function prepareMessage() {
